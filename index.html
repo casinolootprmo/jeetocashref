@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>77 CLUB - Premium Casino Auth</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2 family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --gold: #f1c40f;
+            --gold-gradient: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+            --bg-dark: #111111;
+            --panel: #1a1a1a;
+            --border-color: #333333;
+            --text-muted: #aaaaaa;
+            --green-glow: #2ecc71;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #0a0a0a; 
+            color: white; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh;
+        }
+        
+        .app-shell { 
+            width: 100%; 
+            max-width: 440px; 
+            background: var(--bg-dark);
+            min-height: 100vh; 
+            position: relative; 
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Promotion Banner Block (Image 1000018987.jpg Reference) */
+        .promotion-banner {
+            background: linear-gradient(180deg, #241e10 0%, var(--bg-dark) 100%);
+            padding: 45px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .promo-sub {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .promo-main-title { 
+            font-size: 36px; 
+            font-weight: 900; 
+            line-height: 1.1;
+            background: linear-gradient(180deg, #ffffff 40%, #f1c40f 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin: 5px 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .promo-highlight {
+            font-size: 13px;
+            color: #ffffff;
+            background: rgba(241, 196, 15, 0.12);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
+        /* High Visibility Nav Tabs */
+        .tab-box {
+            display: flex; 
+            margin: -22px 20px 30px; 
+            background: #222222; 
+            border-radius: 12px; 
+            padding: 6px; 
+            border: 2px solid #333333;
+        }
+        .tab-btn {
+            flex: 1; 
+            padding: 16px 10px; /* Big click target */
+            text-align: center; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            font-weight: 800; 
+            font-size: 14px; /* Crisp visibility */
+            transition: all 0.2s ease-in-out; 
+            color: #888888;
+            letter-spacing: 0.5px;
+            border: 1px solid transparent;
+        }
+        .tab-btn.active { 
+            background: var(--gold-gradient); 
+            color: #000000; 
+            border: 1px solid #ffffff;
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3); 
+        }
+
+        /* Form Wrapper & Inputs */
+        .form-wrap { padding: 0 20px; flex: 1; }
+        
+        .input-group {
+            background: var(--panel); 
+            border-radius: 10px; 
+            padding: 16px;
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 18px; 
+            border: 1px solid var(--border-color);
+        }
+        .input-group i { font-size: 18px; width: 30px; text-align: center; }
+        .input-group input { 
+            background: transparent; 
+            border: none; 
+            color: white; 
+            width: 100%; 
+            outline: none; 
+            margin-left: 10px; 
+            font-size: 16px; 
+            font-family: 'Poppins', sans-serif;
+        }
+        .input-group input::placeholder { color: #666; }
+        
+        /* Ultra Visible Call To Action Button */
+        .main-btn {
+            width: 100%; 
+            padding: 18px; /* Extra padded */
+            border: 2px solid #ffffff; /* Sharp accent border */
+            border-radius: 10px;
+            background: var(--gold-gradient);
+            color: #000000; 
+            font-size: 16px; 
+            font-weight: 900; 
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4); 
+            margin-top: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .main-btn:active { transform: scale(0.97); }
+        .shake-err { border-color: #ff4757 !important; animation: shakeX 0.5s; }
+        
+        /* Verification State Banner Sheet (OTP labels removed) */
+        .verification-success-box {
+            background: #161616;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 22px;
+            border-left: 5px solid var(--green-glow);
+        }
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .status-header i { color: var(--green-glow); font-size: 24px; }
+        .status-title { font-size: 14px; font-weight: 700; color: #ffffff; }
+        .bonus-received-strip {
+            background: #221c0e;
+            border: 1px dashed var(--gold);
+            padding: 12px 16px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        /* Activity Guide Component Block */
+        .activity-desc-panel {
+            margin-top: 35px;
+            background: #141414;
+            border-radius: 10px;
+            padding: 18px;
+            border: 1px solid #222222;
+        }
+        .activity-badge {
+            background: #2a2210;
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: 4px 15px 15px 4px;
+            display: inline-block;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+        .activity-desc-panel ol {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            line-height: 1.8;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+    <div class="promotion-banner">
+        <div class="promo-sub">EXCLUSIVE WELCOME EVENT</div>
+        <div class="promo-main-title">UP TO ₹5001</div>
+        <div style="font-size: 15px; font-weight: 800; color: #fff; letter-spacing: 0.5px;">FOR NEW REGISTRATIONS</div>
+        <div class="promo-highlight"><i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i> 100% Certified Registration Pipeline</div>
+    </div>
+
+    <div class="tab-box">
+        <div class="tab-btn active" id="l-tab" onclick="toggleMode('L')">LOGIN ACCOUNT</div>
+        <div class="tab-btn" id="r-tab" onclick="toggleMode('R')">REGISTER NOW</div>
+    </div>
+
+    <div class="form-wrap">
+        <div class="verification-success-box hidden animate__animated animate__fadeIn" id="sms-success-sheet">
+            <div class="status-header">
+                <i class="fa-solid fa-circle-check"></i>
+                <div class="status-title">Congratulations! Network sequence verification complete</div>
+            </div>
+            <div class="bonus-received-strip">
+                <span style="color:#aaa; font-weight:600;">Received Bonuses:</span>
+                <span style="color:var(--gold); font-weight:900; font-size:16px;">Hex.₹<span id="rendered-bonus-amount">305.00</span></span>
+            </div>
+        </div>
+
+        <div id="auth-fields-container">
+            <div class="input-group" id="p-box">
+                <i class="fas fa-phone-alt" style="color: var(--gold);"></i>
+                <input type="number" id="phone" placeholder="Enter Mobile Number" pattern="[0-9]*" inputmode="numeric">
+            </div>
+            
+            <div class="input-group" id="w-box">
+                <i class="fas fa-lock" style="color: var(--gold);"></i>
+                <input type="password" id="pass" placeholder="Enter Secure Password">
+            </div>
+            
+            <div class="input-group hidden" id="invite-box">
+                <i class="fas fa-user-plus" style="color: var(--gold);"></i>
+                <input type="text" id="invite" placeholder="Invite Code (Optional)">
+            </div>
+
+            <button class="main-btn" id="action-btn" onclick="handleAuthProcess()">
+                LOGIN TO ACCOUNT
+            </button>
+        </div>
+
+        <div class="activity-desc-panel">
+            <div class="activity-badge">Activity Description</div>
+            <ol>
+                <li>Register a functional 77 CLUB premium network account.</li>
+                <li>Complete verification security checkpoint sequence.</li>
+                <li>Claim randomized promotional wallet incentives instantly inside database ledger.</li>
+            </ol>
+        </div>
+
+        <p style="text-align: center; color: #333; font-size: 11px; margin: 30px 0 15px; font-weight: 700;">
+            Secured by 256-Bit SSL Core Premium Encryption Protocol
+        </p>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'L';
+
+    function toggleMode(mode) {
+        currentMode = mode;
+        const lTab = document.getElementById('l-tab');
+        const rTab = document.getElementById('r-tab');
+        const invite = document.getElementById('invite-box');
+        const btn = document.getElementById('action-btn');
+        
+        document.getElementById('p-box').classList.remove('shake-err');
+        document.getElementById('w-box').classList.remove('shake-err');
+
+        if(mode === 'L') {
+            lTab.classList.add('active');
+            rTab.classList.remove('active');
+            invite.classList.add('hidden');
+            btn.innerText = 'LOGIN TO ACCOUNT';
+        } else {
+            rTab.classList.add('active');
+            lTab.classList.remove('active');
+            invite.classList.remove('hidden');
+            btn.innerText = 'PROCEED REGISTRATION';
+        }
+    }
+
+    function handleAuthProcess() {
+        const phone = document.getElementById('phone');
+        const pass = document.getElementById('pass');
+        const pBox = document.getElementById('p-box');
+        const wBox = document.getElementById('w-box');
+
+        pBox.classList.remove('shake-err');
+        wBox.classList.remove('shake-err');
+
+        if(phone.value.trim() === "" || pass.value.trim() === "") {
+            if(phone.value.trim() === "") pBox.classList.add('shake-err');
+            if(pass.value.trim() === "") wBox.classList.add('shake-err');
+
+            Swal.fire({
+                title: 'Empty Fields',
+                text: 'Please populate mandatory fields before interacting with authorization gateways.',
+                icon: 'error',
+                confirmButtonColor: '#f39c12',
+                background: '#1a1a1a',
+                color: '#fff'
+            });
+            return;
+        }
+
+        if(phone.value.length < 10) {
+            pBox.classList.add('shake-err');
+            Swal.fire({
+                title: 'Invalid Sequence',
+                text: 'Authentication requires a strict 10-digit smartphone routing node.',
+                icon: 'warning',
+                confirmButtonColor: '#f39c12',
+                background: '#1a1a1a',
+                color: '#fff'
+            });
+            return;
+        }
+
+        if(currentMode === 'R') {
+            const randomBonus = (Math.random() * (478 - 128) + 128).toFixed(2);
+            document.getElementById('rendered-bonus-amount').innerText = randomBonus;
+            
+            document.getElementById('auth-fields-container').classList.add('hidden');
+            document.getElementById('sms-success-sheet').classList.remove('hidden');
+            
+            Swal.fire({
+                title: 'Verified Success!',
+                text: `Account generation setup complete. Received Allocation: ₹${randomBonus}`,
+                icon: 'success',
+                confirmButtonColor: '#2ecc71',
+                background: '#1a1a1a',
+                color: '#fff'
+            }).then(() => {
+                sessionStorage.setItem('claim_bonus', 'true');
+                window.location.href = 'dashboard.html';
+            });
+        } else {
+            window.location.href = 'dashboard.html';
+        }
+    }
+</script>
+
+</body>
+</html>
+  
