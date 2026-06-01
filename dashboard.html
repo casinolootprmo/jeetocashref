@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jeeto Cash - Premium Casino & Earning Arena</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+        
+        :root { 
+            --bg-main: #141414;
+            --bg-card: #1f1f1f;
+            --gold-gradient: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+            --gold-text: #f1c40f;
+            --text-light: #e0e0e0;
+            --text-muted: #888888;
+            --border-gold: rgba(241, 196, 15, 0.15);
+        }
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bg-main); 
+            color: var(--text-light); 
+            margin: 0; 
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Responsive Mobile Layout Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-left: 1px solid #2a2a2a;
+            border-right: 1px solid #2a2a2a;
+        }
+
+        /* Top Action Header */
+        .app-header { 
+            background: #111111; 
+            padding: 12px 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 1px solid #262626;
+        }
+        .app-header .logo { font-size: 20px; font-weight: 900; color: var(--gold-text); letter-spacing: 0.5px; }
+        .app-header .uid-box { font-size: 11px; font-weight: 700; color: #aaa; background: #262626; padding: 5px 12px; border-radius: 4px; border: 1px solid #333; }
+
+        /* Main Body Split Screen Setup (Like Reference Image 1000018987.jpg) */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding-bottom: 70px;
+        }
+
+        /* Left Side Navigation Sidebar */
+        .left-sidebar {
+            width: 85px;
+            background: #111111;
+            border-right: 1px solid #262626;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-top: 10px;
+        }
+        .side-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 4px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .side-item i { font-size: 16px; margin-bottom: 6px; }
+        .side-item.active {
+            color: var(--gold-text);
+            background: linear-gradient(90deg, rgba(241,196,15,0.08) 0%, rgba(0,0,0,0) 100%);
+            border-left: 3px solid var(--gold-text);
+        }
+
+        /* Right Content Area Frame */
+        .right-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        /* Premium Wallet Banner Frame */
+        .balance-banner { 
+            background: linear-gradient(135deg, #2c2514 0%, #17140b 100%); 
+            padding: 18px; border-radius: 12px; color: white;
+            position: relative; overflow: hidden; margin-bottom: 12px;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .bal-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .bal-value { font-size: 32px; font-weight: 800; margin: 4px 0 12px; color: var(--gold-text); }
+        
+        .withdraw-pill { 
+            background: var(--gold-gradient); color: #000; border: none; padding: 10px; 
+            border-radius: 6px; font-weight: 800; font-size: 13px; cursor: pointer; width: 100%;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* Dashboard Internal Row Metrics */
+        .stats-row { display: flex; gap: 8px; margin-bottom: 16px; }
+        .stat-card { background: var(--bg-card); border: 1px solid #2a2a2a; flex: 1; padding: 10px 4px; border-radius: 8px; text-align: center; }
+        .stat-card div:first-child { font-size: 9px; color: var(--text-muted); font-weight: 700; }
+        .stat-card div:last-child { font-size: 13px; font-weight: 800; color: #fff; margin-top: 2px; }
+
+        /* Gold Standard Task Blocks */
+        .task-card { 
+            background: var(--bg-card); padding: 12px; border-radius: 10px; margin-bottom: 8px;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid #262626; border-left: 3px solid var(--gold-text);
+        }
+        .task-info { flex: 1; margin-left: 10px; }
+        .task-info h4 { margin: 0; font-size: 12px; font-weight: 700; color: #fff; }
+        .reward-amt { font-size: 13px; font-weight: 800; color: #2ecc71; display: block; margin-top: 2px; }
+        
+        .get-btn { 
+            background: #2a2a2a; color: var(--gold-text); border: 1px solid var(--gold-text); padding: 6px 14px; 
+            border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block;
+        }
+        .get-btn.done { background: #161616; color: #555; border-color: #222; pointer-events: none; }
+
+        /* Dynamic Activity Frame Block (From Image 1000018987.jpg Right-Section) */
+        .activity-box {
+            background: #111; border-radius: 8px; border: 1px solid #222; margin-top: 15px; overflow: hidden;
+        }
+        .activity-header {
+            background: linear-gradient(90deg, #d4af37 0%, #111 80%);
+            color: #000; font-size: 11px; font-weight: 800; padding: 6px 12px; text-transform: uppercase;
+        }
+        .activity-body { padding: 12px; font-size: 11px; color: #aaa; line-height: 1.6; }
+        .activity-body ol { margin: 0; padding-left: 14px; }
+
+        /* System Profile Configuration Block */
+        .profile-card { background: var(--bg-card); border: 1px solid #262626; border-radius: 12px; padding: 16px; }
+        .profile-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #262626; font-size: 13px; color: #ccc; cursor: pointer; }
+
+        /* Fixed Bottom Tab Tray Navigation */
+        .bottom-menu { 
+            position: absolute; bottom: 0; left: 0; width: 100%; background: #111; 
+            display: flex; justify-content: space-around; padding: 10px 0;
+            border-top: 1px solid #262626; z-index: 99;
+        }
+        .menu-item { text-align: center; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; }
+        .menu-item i { font-size: 16px; margin-bottom: 3px; }
+        .menu-item.active { color: var(--gold-text); }
+        
+        /* Overrides for SweetAlert Custom Themes */
+        .swal2-popup { background: #1f1f1f !important; color: #fff !important; border: 1px solid #333 !important; border-radius: 12px !important; }
+        .swal2-title { color: var(--gold-text) !important; }
+        .swal2-confirm { background-color: #f39c12 !important; color: #000 !important; font-weight: 700 !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="app-header">
+        <div class="logo">77 CLUB</div>
+        <div class="uid-box">UID: <span id="top-uid">...</span></div>
+    </div>
+
+    <div class="workspace">
+        <!-- LEFT SIDEBAR CATEGORIES (AS REQUESTED VIA 1000018987.jpg) -->
+        <div class="left-sidebar">
+            <div class="side-item active" id="side-all" onclick="nav('home')"><i class="fa-solid fa-layer-group"></i><br>All</div>
+            <div class="side-item" id="side-ipl" onclick="Swal.fire('IPL Mode', 'Available during matches!', 'info')"><i class="fa-solid fa-trophy"></i><br>IPL</div>
+            <div class="side-item" id="side-agent" onclick="showRefer()"><i class="fa-solid fa-users-gear"></i><br>Agent</div>
+            <div class="side-item" id="side-slots" onclick="Swal.fire('Slots Gaming', 'Coming Soon!', 'info')"><i class="fa-solid fa-gamepad"></i><br>Slot</div>
+            <div class="side-item" id="side-me" onclick="nav('account')"><i class="fa-solid fa-user-gear"></i><br>Mine</div>
+        </div>
+
+        <!-- RIGHT FLEX CONTENT SPACE -->
+        <div class="right-content">
+            
+            <!-- HOME VIEWPORT PANELS -->
+            <div id="home-page">
+                <div class="balance-banner">
+                    <div class="bal-label">My Wallet Balance</div>
+                    <div class="bal-value">₹ <span class="live-balance">0.00</span></div>
+                    <button class="withdraw-pill" onclick="handleWithdrawal()">WITHDRAW CASH</button>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div>TODAY EARN</div>
+                        <div>₹<span id="today-earn">0.00</span></div>
+                    </div>
+                    <div class="stat-card" onclick="claimDailyReward()" style="cursor:pointer; background: #2c2212; border: 1px solid #5e4817;">
+                        <div style="color: var(--gold-text);">DAILY GIFT</div>
+                        <div style="font-size: 11px; font-weight:700;"><i class="fas fa-gift"></i> CLAIM</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>TASKS</div>
+                        <div><span id="task-count">0</span>/8</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 12px; font-weight: 800; margin-bottom: 10px; color:#aaa; text-transform:uppercase;">High-Paying Tasks</div>
+                <div id="task-list-container"></div>
+
+                <!-- ACTIVITY CONFIG SHEET FROM 1000018987.jpg -->
+                <div class="activity-box">
+                    <div class="activity-header">Activity description</div>
+                    <div class="activity-body">
+                        <ol>
+                            <li>Register official 77 CLUB verification ledger nodes.</li>
+                            <li>Complete external Partner Channel assignments via Link paths.</li>
+                            <li>Minimum active gateway release protocol requires ₹500 matrix limits.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE ACCOUNT PANELS -->
+            <div id="account-page" style="display:none;">
+                <div class="animate__animated animate__fadeIn animate__faster">
+                    <div class="profile-card">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <div style="width: 50px; height: 50px; background: #262626; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold-text); font-size: 20px; border: 1px solid #444;">
+                                <i class="fas fa-user-astronaut"></i>
+                            </div>
+                            <div style="margin-left: 12px;">
+                                <div style="font-size: 15px; font-weight: 800;">Premium Core Member</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">UID: <span id="profile-uid" style="color: var(--gold-text);"></span></div>
+                            </div>
+                        </div>
+
+                        <div style="background: #111; padding: 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 20px;">
+                            <div>
+                                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">WALLET METRIC</div>
+                                <div style="font-size: 20px; font-weight: 800; color: #fff;">₹<span class="live-balance">0.00</span></div>
+                            </div>
+                            <button onclick="handleWithdrawal()" style="background: var(--gold-gradient); color: #000; border: none; padding: 8px 14px; border-radius: 4px; font-weight: 700; font-size: 12px; cursor: pointer;">Withdraw</button>
+                        </div>
+
+                        <div class="profile-item" onclick="Swal.fire('History', 'No logs recorded.', 'info')">
+                            <span><i class="fas fa-history" style="width:20px;"></i> Record History</span>
+                            <i class="fas fa-chevron-right" style="color:#444;"></i>
+                        </div>
+                        <div class="profile-item" onclick="showRefer()">
+                            <span><i class="fas fa-user-plus" style="width:20px;"></i> Network Nodes</span>
+                            <i class="fas fa-chevron-right" style="color:#444;"></i>
+                        </div>
+                        <div class="profile-item" style="color: #ff4757; border: none;">
+                            <span><i class="fas fa-sign-out-alt" style="width:20px;"></i> Session Logout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LOWER CONSOLE TRAY FOOTER LINKS -->
+    <div class="bottom-menu">
+        <div class="menu-item active" id="bm-home" onclick="nav('home')"><i class="fas fa-home-alt"></i><br>HOME</div>
+        <div class="menu-item" onclick="showRefer()"><i class="fas fa-gift"></i><br>REFER</div>
+        <div class="menu-item" onclick="handleWithdrawal()"><i class="fas fa-wallet"></i><br>REDEEM</div>
+        <div class="menu-item" id="bm-account" onclick="nav('account')"><i class="fas fa-user"></i><br>ME</div>
+    </div>
+</div>
+
+<script>
+    const signupBonus = Math.floor(Math.random() * (260 - 200 + 1)) + 200;
+    let wallet = 0;
+    let verifiedCount = 0;
+    const randomUID = Math.floor(500000 + Math.random() * 400000);
+
+    const telegramLinks = [
+        "https://t.me/+JnRq7l84UlFhMWVl", "https://t.me/+qF4oANEg7pU0YzQ1",
+        "https://t.me/+tCY2W7_6uQc0OGU9", "https://t.me/+r72-luRvSXUyOTA9",
+        "https://t.me/+X0GitG0yHfAxZTNl", "https://t.me/+PKqs7oM1XA05M2Vl",
+        "https://t.me/+OTUi0sTq9iE1N2Q9", "https://t.me/addlist/536ANdglpSJjYzI1"
+    ];
+
+    window.onload = () => {
+        document.getElementById('top-uid').innerText = randomUID;
+        document.getElementById('profile-uid').innerText = randomUID;
+        
+        const container = document.getElementById('task-list-container');
+        telegramLinks.forEach((link, i) => {
+            container.innerHTML += `
+                <div class="task-card animate__animated animate__fadeInUp">
+                    <div class="task-info">
+                        <h4>Task Link Node #${i+1}</h4>
+                        <span class="reward-amt">+₹14.00</span>
+                    </div>
+                    <a href="${link}" target="_blank" class="get-btn" onclick="verifyTask(this)">GET</a>
+                </div>
+            `;
+        });
+
+        Swal.fire({
+            title: 'Welcome Allocation!',
+            html: `Structural reward credited:<br><h2 style="color:#f1c40f; font-size:38px; margin:10px 0;">₹${signupBonus}</h2>`,
+            confirmButtonText: 'CONFIRM REGISTRATION',
+            allowOutsideClick: false
+        }).then(() => { updateWallet(signupBonus); });
+    };
+
+    function nav(page) {
+        document.getElementById('home-page').style.display = (page === 'home') ? 'block' : 'none';
+        document.getElementById('account-page').style.display = (page === 'account') ? 'block' : 'none';
+        
+        document.querySelectorAll('.side-item, .menu-item').forEach(el => el.classList.remove('active'));
+        
+        if(page === 'home') {
+            document.getElementById('side-all').classList.add('active');
+            document.getElementById('bm-home').classList.add('active');
+        } else if(page === 'account') {
+            document.getElementById('side-me').classList.add('active');
+            document.getElementById('bm-account').classList.add('active');
+        }
+    }
+
+    function updateWallet(target) {
+        let start = wallet;
+        const diff = target - start;
+        const timer = setInterval(() => {
+            start += diff / 10;
+            if(start >= target) {
+                clearInterval(timer);
+                wallet = target;
+                document.querySelectorAll('.live-balance').forEach(el => el.innerText = wallet.toFixed(2));
+                document.getElementById('today-earn').innerText = (wallet - signupBonus > 0 ? wallet - signupBonus : 0).toFixed(2);
+            } else {
+                document.querySelectorAll('.live-balance').forEach(el => el.innerText = start.toFixed(2));
+            }
+        }, 30);
+    }
+
+    function verifyTask(btn) {
+        if(!btn.classList.contains('done')) {
+            btn.innerText = "DONE";
+            btn.classList.add('done');
+            verifiedCount++;
+            document.getElementById('task-count').innerText = verifiedCount;
+            updateWallet(wallet + 14);
+        }
+    }
+
+    function claimDailyReward() {
+        const lastClaim = localStorage.getItem('lastClaimDate');
+        const today = new Date().toDateString();
+        if (lastClaim === today) {
+            Swal.fire('Already Claimed!', 'Check allocation cycles tomorrow!', 'info');
+        } else {
+            const dailyAmt = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
+            localStorage.setItem('lastClaimDate', today);
+            Swal.fire('Success!', `Daily premium allowance: ₹${dailyAmt}`, 'success').then(() => updateWallet(wallet + dailyAmt));
+        }
+    }
+
+    function handleWithdrawal() {
+        if (verifiedCount < 8) {
+            Swal.fire('Tasks Incomplete', 'Please validate all 8 link targets before opening checkout panels.', 'warning');
+        } else if (wallet < 500) {
+            Swal.fire({
+                title: 'Threshold Error',
+                icon: 'error',
+                html: `<p>Minimum processing requirements: <b>₹500</b>.</p><p>Current Asset: ₹${wallet.toFixed(2)}</p>`,
+                confirmButtonText: 'Refer Base'
+            }).then(() => showRefer());
+        } else {
+            Swal.fire({ title: 'Terminal Payout', input: 'text', inputPlaceholder: 'Enter valid standard UPI string' });
+        }
+    }
+
+    function showRefer() {
+        const refLink = "https://casinolootprmo.github.io/jeetocashref/";
+        Swal.fire({
+            title: 'Invite Your 10 Friends',
+            html: `<div style="padding:12px; border:1px dashed var(--gold-text); font-size:11px; margin:15px 0; word-break:break-all; background:#111; font-family:monospace; color:#ccc;">${refLink}</div>
+                   <button class="withdraw-pill" onclick="copy('${refLink}')">COPY INTERACTIVE STRUCT LINK</button>`,
+            showConfirmButton: false
+        });
+    }
+
+    function copy(t) {
+        navigator.clipboard.writeText(t);
+        Swal.fire({ title: 'Copied!', icon: 'success', timer: 1000, showConfirmButton: false });
+    }
+</script>
+</body>
+              </html>
+              
